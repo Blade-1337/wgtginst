@@ -1,5 +1,5 @@
 import telebot
-from telebot import types # для указание типов
+from telebot import types 
 import time
 import datetime
 import subprocess
@@ -84,7 +84,7 @@ def del_vpn(message):
         bot.reply_to(message, 'Вы отправили текстовое сообщение.')
         config_string = check_message(message.text)
         if check_number_in_range(message.text):
-            subprocess.run(['scripts/del_cl.sh', config_string])
+            subprocess.run(['/root/wgtginst/scripts/del_cl.sh', config_string])
             script_path = os.path.dirname(os.path.realpath(__file__))
             rm_user_script = os.path.join(script_path, "rm_user.sh")
             subprocess.run([rm_user_script, config_string])
@@ -114,7 +114,7 @@ def add_vpn(message):
             # Обработка текстового сообщения
 #            bot.reply_to(message, 'Вы отправили текстовое сообщение.')
             config_string = check_message(message.text)
-            subprocess.run(['scripts/add_cl.sh', config_string])
+            subprocess.run(['/root/wgtginst/scripts/add_cl.sh', config_string])
             bot.send_message(message.chat.id, f"Конфиг {config_string}.conf создан")
             config_file_path = f"/etc/wireguard/{config_string}_cl.conf"
             qr(config_file_path, message.chat.id)
@@ -171,7 +171,7 @@ def func(message):
                 bot.send_message(message.chat.id, text="Выполни запрос", reply_markup=markup)
         elif message.text == "Удалить_конфиг":
             bot.send_message(message.chat.id, "Введите последний октет ip, который нужно удалить.", reply_markup=types.ReplyKeyboardRemove())
-            config_file_path_txt = f"cofigs.txt"
+            config_file_path_txt = f"/root/wgtginst/cofigs.txt"
             with open(config_file_path_txt, 'rb') as file:
                 config_content = file.read()
             bot.send_message(message.chat.id, config_content)
@@ -193,17 +193,17 @@ def func(message):
                 if os.path.basename(file_path) != 'wg0.conf':
                     with open(file_path, 'rb') as file:
                         bot.send_document(message.chat.id, document=file)
-            config_file_path_txt = f"cofigs.txt"
+            config_file_path_txt = f"/root/wgtginst/cofigs.txt"
             with open(config_file_path_txt, 'rb') as file:
                 config_content = file.read()
             bot.send_message(message.chat.id, config_content)
 #            bot.send_message(message.chat.id, "Конфигурационный файл успешно отправлен.")
         elif message.text == "Сохранить_конигурацию":
-            subprocess.run(['scripts/backup.sh'])
+            subprocess.run(['/root/wgtginst/scripts/backup.sh'])
             print("ok")
             bot.send_message(message.chat.id, text="Резервная копия создана")
         elif message.text == "Импортировать_конигурацию":
-            subprocess.run(['scripts/restore.sh'])
+            subprocess.run(['/root/wgtginst/scripts/restore.sh'])
             print("ok2")
             bot.send_message(message.chat.id, text="Резервная копия импортированна")
         elif message.text == "Установка_Wireguard":
@@ -222,11 +222,11 @@ def func(message):
             else:
                 print(f"Файла {file_path} не существует.")
                 bot.send_message(message.chat.id, "Запускаю установку Wireguard. \nПожалуйста дождитесь завершения установки.")
-                subprocess.run(['scripts/start_wg.sh'])
+                subprocess.run(['/root/wgtginst/scripts/start_wg.sh'])
                 bot.send_message(message.chat.id, "Установка Wireguard завершена")
         elif (message.text == "Да"):
             bot.send_message(message.chat.id, "Удаляю конфиги!")
-            command = "rm variables.sh && rm -r /etc/wireguard/ && mkdir /etc/wireguard/ && rm cofigs.txt"
+            command = "rm /root/wgtginst/variables.sh && rm -r /etc/wireguard/ && mkdir /etc/wireguard/ && rm /root/wgtginst/cofigs.txt"
             subprocess.run(command, shell=True)
 #            # Удаление файла variables.sh
 #            subprocess.run("rm variables.sh", shell=True)
@@ -239,7 +239,7 @@ def func(message):
 #            # Удаление файла cofigs.txt
 #            subproces.run("rm cofigs.txt", shell=True)
             bot.send_message(message.chat.id, "Запускаю установку Wireguard")
-            subprocess.run(['scripts/start_wg.sh'])
+            subprocess.run(['/root/wgtginst/scripts/start_wg.sh'])
             bot.send_message(message.chat.id, "Установка Wireguard завершена")
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             button1 = types.KeyboardButton("Мониторинг")
