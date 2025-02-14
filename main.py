@@ -226,7 +226,7 @@ def func(message):
                 bot.send_message(message.chat.id, "Установка Wireguard завершена")
         elif (message.text == "Да"):
             bot.send_message(message.chat.id, "Удаляю конфиги!")
-            command = "rm /etc/wgtginst/variables.sh && rm -r /etc/wireguard/ && mkdir /etc/wireguard/ && rm /etc/wgtginst/cofigs.txt"
+            command = "rm /etc/wgtginst/scripts/variables.sh && rm -r /etc/wireguard/ && mkdir /etc/wireguard/ && rm /etc/wgtginst/cofigs.txt"
             subprocess.run(command, shell=True)
 #            # Удаление файла variables.sh
 #            subprocess.run("rm variables.sh", shell=True)
