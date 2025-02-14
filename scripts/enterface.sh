@@ -23,7 +23,7 @@ fi
 #echo "Веб-интерфейс с доступом в интернет:"
 ip_address_glob=$(curl -s ipinfo.io/ip)
 echo "Полученный IP-адрес: $ip_address_glob"
-#echo "internet_interface=$internet_interface" > variables.sh
+#echo "internet_interface=$internet_interface" > /etc/wgrginst/scripts/variables.sh
 echo "Имя интерфейса: $internet_interface"
-echo "internet_interface=${internet_interface}" >> variables.sh
+echo "internet_interface=${internet_interface}" >> /etc/wgrginst/scripts/variables.sh
 echo "IP-адрес: $ip_address"
