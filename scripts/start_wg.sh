@@ -1,13 +1,13 @@
 #!/bin/bash
-source variables.sh
+source /etc/wgtginst/scripts/variables.sh
 apt update
 apt install -y wireguard iptables fish zip unzip iproute2
 
 rm cofigs.txt
 touch cofigs.txt
-echo "vap_ip_local=1" > variables.sh
-ip_address_glob=$(curl -s ifconfig.me)
-echo "ip_address_glob=$ip_address_glob" >> variables.sh
+echo "vap_ip_local=1" > /etc/wgtginst/scripts/variables.sh
+ip_address_glob=$(curl -s ipinfo.io/ip)
+echo "ip_address_glob=$ip_address_glob" >> /etc/wgtginst/scripts/variables.sh
 
 internet_interface=$(ip a | awk '/^[0-9]+: .* state UP/ {gsub(/:/,"",$2); print $2}' | grep -E '^ens[0-9]+')
 if [ -z "$internet_interface" ]; then
@@ -19,14 +19,14 @@ if [ -z "$ip_address" ]; then
   echo "IP-адрес интерфейса $internet_interface не найден."
   exit 1
 fi
-echo "internet_interface=${internet_interface}" >> variables.sh
+echo "internet_interface=${internet_interface}" >> /etc/wgtginst/scripts/variables.sh
 
 wg genkey | tee /etc/wireguard/privatekey | wg pubkey | tee /etc/wireguard/publickey
 chmod 600 /etc/wireguard/privatekey
 var_private_key=$(cat /etc/wireguard/privatekey)
 var_public_key=$(cat /etc/wireguard/publickey)
-echo "var_private_key=\"$var_private_key\"" >> variables.sh
-echo "var_public_key=\"$var_public_key\"" >> variables.sh
+echo "var_private_key=\"$var_private_key\"" >> /etc/wgtginst/scripts/variables.sh
+echo "var_public_key=\"$var_public_key\"" >> /etc/wgtginst/scripts/variables.sh
 echo "[Interface]
 PrivateKey = ${var_private_key}
 Address = 10.10.0.1/24
