@@ -2,7 +2,7 @@
 
 var_username=$1
 var_ip_address_glob2="$ip_address_glob"
-source variables.sh
+source /etc/wgrginst/scripts/variables.sh
 ((vap_ip_local++))
 
 # Запрос имени пользователя
@@ -42,10 +42,10 @@ PersistentKeepalive = 20" | tee -a /etc/wireguard/${var_username}_cl.conf
 wg-quick down wg0
 wg-quick up wg0
 
-# Перезаписываем значение переменной vap_ip_local в файле variables.sh
-grep -q "vap_ip_local=" variables.sh && sed -i "s/vap_ip_local=.*/vap_ip_local=${vap_ip_local}/" variables.sh || echo "vap_ip_local=${vap_ip_local}" >> variables.sh
+# Перезаписываем значение переменной vap_ip_local в файле /etc/wgrginst/scripts/variables.sh
+grep -q "vap_ip_local=" /etc/wgrginst/scripts/variables.sh && sed -i "s/vap_ip_local=.*/vap_ip_local=${vap_ip_local}/" /etc/wgrginst/scripts/variables.sh || echo "vap_ip_local=${vap_ip_local}" >> /etc/wgrginst/scripts/variables.sh
 
-echo "ip_address_glob=${ip_address_glob}" >> variables.sh
+echo "ip_address_glob=${ip_address_glob}" >> /etc/wgrginst/scripts/variables.sh
 echo "Новый клиент ${var_username} добавлен."
 echo "10.10.0.${vap_ip_local} = ${var_username}" >> cofigs.txt
 
