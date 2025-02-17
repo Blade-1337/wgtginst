@@ -47,7 +47,7 @@ grep -q "vap_ip_local=" /etc/wgtginst/scripts/variables.sh && sed -i "s/vap_ip_l
 
 echo "ip_address_glob=${ip_address_glob}" >> /etc/wgtginst/scripts/variables.sh
 echo "Новый клиент ${var_username} добавлен."
-echo "10.10.0.${vap_ip_local} = ${var_username}" >> cofigs.txt
+echo "10.10.0.${vap_ip_local} = ${var_username}" >> /etc/wgtginst/cofigs.txt
 
 exit 0
 
